@@ -1,0 +1,173 @@
+{{template "admin/header.tpl" .}}
+
+<div class="layui-body" style="background-color: #eeeeee;" >
+    <div class="layui-row layui-col-space15" style="width:1200px;padding: 20px">
+        <div class="layui-col-md6">
+          <div class="layui-panel" style="height: 500px; padding: 20px;">
+        <h2>城市车站数量图</h2>
+    <div id="train_dataviz"></div>
+    <script>
+        var dataset = '{{.city_stations}}';
+        let new_dataset_city = [];
+        var city = '';
+        var station_cnt = '';
+        let max_num_station = 0;
+        for (let i = 0; i < dataset.length; i++) {
+            if (dataset[i] == '{' || dataset[i] == '[' || dataset[i] == ']' || dataset[i] == ' ') {
+                continue;
+            } else if (dataset[i] == '}') {
+                new_dataset_city.push({ city: city, value: parseInt(station_cnt) });
+                max_num_station = Math.max(max_num_station, parseInt(station_cnt));
+                city = '';
+                station_cnt = '';
+            } else if (parseInt(dataset[i]) >= 0 && parseInt(dataset[i]) <= 9) {
+                station_cnt += dataset[i];
+            } else {
+                city += dataset[i];
+            }
+        }
+        console.log(new_dataset_city);
+        // set the dimensions and margins of the graph
+        var margin = { top: 20, right: 30, bottom: 40, left: 90 },
+            width = 460 - margin.left - margin.right,
+            height = 400 - margin.top - margin.bottom;
+
+        // append the svg object to the body of the page
+        var svg = d3
+            .select('#train_dataviz')
+            .append('svg')
+            .attr('width', width + margin.left + margin.right)
+            .attr('height', height + margin.top + margin.bottom)
+            .append('g')
+            .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+        // Parse the Data
+
+        // Add X axis
+        var x = d3
+            .scaleLinear()
+            .domain([0, max_num_station + 1])
+            .range([0, width]);
+        svg.append('g')
+            .attr('transform', 'translate(0,' + height + ')')
+            .call(d3.axisBottom(x))
+            .selectAll('text')
+            .attr('transform', 'translate(-10,0)rotate(-45)')
+            .style('text-anchor', 'end');
+
+        // Y axis
+        var y = d3
+            .scaleBand()
+            .range([0, height])
+            .domain(
+                new_dataset_city.map(function (d) {
+                    return d.city;
+                })
+            )
+            .padding(0.1);
+        svg.append('g').call(d3.axisLeft(y));
+
+        //Bars
+        svg.selectAll('myRect')
+            .data(new_dataset_city)
+            .enter()
+            .append('rect')
+            .attr('x', x(0))
+            .attr('y', function (d) {
+                return y(d.city);
+            })
+            .attr('width', function (d) {
+                return x(d.value);
+            })
+            .attr('height', y.bandwidth())
+            .attr('fill', '#69b3a2');
+    </script>
+    </div>   
+  </div>
+    <div class="layui-col-md6">
+      <div class="layui-panel" style="height: 500px; padding: 20px;">
+        <h2>车站流量图</h2>
+        <div id="traffic_dataviz"></div>
+        <script>
+            var dataset = '{{.station_traffic}}';
+            let new_dataset_traffic = [];
+            var city = '';
+            var station_cnt = '';
+            let max_num_trains = 0;
+            for (let i = 0; i < dataset.length; i++) {
+                if (dataset[i] == '{' || dataset[i] == '[' || dataset[i] == ']' || dataset[i] == ' ') {
+                    continue;
+                } else if (dataset[i] == '}') {
+                    new_dataset_traffic.push({ city: city, value: parseInt(station_cnt) });
+                    max_num_trains = Math.max(max_num_trains, parseInt(station_cnt));
+                    city = '';
+                    station_cnt = '';
+                } else if (parseInt(dataset[i]) >= 0 && parseInt(dataset[i]) <= 9) {
+                    station_cnt += dataset[i];
+                } else {
+                    city += dataset[i];
+                }
+            }
+            console.log(new_dataset_traffic);
+            // set the dimensions and margins of the graph
+            var margin = { top: 20, right: 30, bottom: 40, left: 90 },
+                width = 460 - margin.left - margin.right,
+                height = 400 - margin.top - margin.bottom;
+    
+            // append the svg object to the body of the page
+            var svg = d3
+                .select('#traffic_dataviz')
+                .append('svg')
+                .attr('width', width + margin.left + margin.right)
+                .attr('height', height + margin.top + margin.bottom)
+                .append('g')
+                .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+            // Parse the Data
+    
+            // Add X axis
+            var x = d3
+                .scaleLinear()
+                .domain([0, max_num_trains + 1])
+                .range([0, width]);
+            svg.append('g')
+                .attr('transform', 'translate(0,' + height + ')')
+                .call(d3.axisBottom(x))
+                .selectAll('text')
+                .attr('transform', 'translate(-10,0)rotate(-45)')
+                .style('text-anchor', 'end');
+    
+            // Y axis
+            var y = d3
+                .scaleBand()
+                .range([0, height])
+                .domain(
+                    new_dataset_traffic.map(function (d) {
+                        return d.city;
+                    })
+                )
+                .padding(0.1);
+            svg.append('g').call(d3.axisLeft(y));
+    
+            //Bars
+            svg.selectAll('myRect')
+                .data(new_dataset_traffic)
+                .enter()
+                .append('rect')
+                .attr('x', x(0))
+                .attr('y', function (d) {
+                    return y(d.city);
+                })
+                .attr('width', function (d) {
+                    return x(d.value);
+                })
+                .attr('height', y.bandwidth())
+                .attr('fill', '#69b3a2');
+        </script>
+    </div>   
+  </div>
+</div>    
+    
+
+   
+</div>
+
+{{template "admin/footer.tpl" .}}

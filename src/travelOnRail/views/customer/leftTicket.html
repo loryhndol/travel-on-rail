@@ -1,0 +1,257 @@
+{{template "customer/header.tpl" .}}
+<div style="padding: 40px"></div>
+<div class="layui-container">
+    <span class="layui-breadcrumb" lay-separator="-">
+        <a href="index.html">首页</a>
+        <a>车票购买</a>
+        <a><cite>单程票/往返票</cite></a>
+    </span>
+    <div style="padding: 20px"></div>
+    <form
+        class="layui-form"
+        action=""
+        style="background-color: #f6f6f6; padding-top: 20px; padding-bottom: 10px"
+    >
+        <div class="layui-form-item">
+            <div class="layui-row">
+                <div class="layui-col-md3">
+                    <label class="layui-form-label">出发地</label>
+                    <div class="layui-input-block">
+                        <select name="fs" lay-verify="required" lay-search>
+                            <option value=""></option>
+                            {{range $key, $val := .fs}}
+                            <option value="{{$val}}">{{$val}}</option>
+                            {{end}}
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-col-md3">
+                    <label class="layui-form-label">到达地</label>
+                    <div class="layui-input-block">
+                        <select name="ts" lay-verify="required" lay-search>
+                            <option value=""></option>
+                            {{range $key, $val := .ts}}
+                            <option value="{{$val}}">{{$val}}</option>
+                            {{end}}
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-col-md3">
+                    <label class="layui-form-label"></label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" name="highspeed" title="高铁/动车" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-row">
+                <div class="layui-col-md3">
+                    <label class="layui-form-label">出发日</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" id="departtime" name="departTime" />
+                    </div>
+                </div>
+                <div class="layui-col-md3">
+                    <label class="layui-form-label">返程日</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" id="backtime" name="backTime" />
+                    </div>
+                </div>
+                <div class="layui-col-md4">
+                    <div class="layui-input-block" id="tripType" lay-filter="tripType">
+                        <input
+                            type="radio"
+                            name="trip"
+                            value="round"
+                            title="往返"
+                            id="round"
+                            lay-filter="tripType"
+                        />
+                        <input
+                            type="radio"
+                            name="trip"
+                            value="single"
+                            title="单程"
+                            checked
+                            lay-filter="tripType"
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-row">
+                <div class="layui-col-md4">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <table class="layui-table" lay-data="{height:500, page:true, limit:20, id:'test', even:true}" lay-filter="test">
+        <thead>
+            <tr>
+                <th lay-data="{field:'trainName', width:80, align:'center'}">车次</th>
+                <th lay-data="{field:'fs', width:80, align:'center'}">出发站</th>
+                <th lay-data="{field:'ts', width:80, align:'center'}">到达站</th>
+                <th
+                    lay-data="{field:'departTime', width:80, sort: true, align:'center'}"
+                    
+                >
+                    出发
+                </th>
+                <th lay-data="{field:'arrTime', width:80, sort: true, align:'center'}">
+                    到达
+                </th>
+                <th
+                    lay-data="{field:'durationLength', width:100, sort: true, align:'center'}"
+                   
+                >
+                    历时
+                </th>
+                <th lay-data="{field:'ZY', width:80, align:'center'}" >一等座</th>
+                <th lay-data="{field:'ZE', width:80, align:'center'}" >二等座</th>
+                <th lay-data="{field:'RW', width:80, align:'center'}" >软卧</th>
+                <th lay-data="{field:'YW', width:80, align:'center'}" >硬卧</th>
+                <th lay-data="{field:'YZ', width:80, align:'center'}" >硬座</th>
+                <th lay-data="{field:'None', width:80, align:'center'}" >无座</th>
+                <th lay-data="{field:'Tips', width:146, align:'center'}" >备注</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{range $key, $value := .leftTicket}}
+            <tr>
+                <td>
+                    {{$value.TrainName}}
+                </td>
+                <td>
+                    {{$value.Beg}}
+                </td>
+                <td>
+                    {{$value.Tar}}
+                </td>
+                <td>
+                    {{index $value.DeptClock 0}}:{{index $value.DeptClock 1}}
+                </td>
+                <td>
+                    {{index $value.ArrClock 0}}:{{index $value.ArrClock 1}}
+                </td>
+                <td>
+                    {{$value.IntervalTime}}
+                </td>
+                <td>
+                    {{$value.ZY}}
+                </td>
+                <td>
+                    {{$value.ZE}}
+                </td>
+                <td>
+                    {{$value.RW}}
+                </td>
+                <td>
+                    {{$value.YW}}
+                </td>
+                <td>
+                    {{$value.YZ}}
+                </td>
+                <td>
+                    {{$value.None}}
+                </td>
+                <td>
+                    <button class="layui-btn layui-btn-normal layui-btn-xs layui-btn-fluid">
+                        预定
+                    </button>
+                </td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
+
+    <script>
+        //Demo
+        layui.use('form', function () {
+            var form = layui.form;
+
+            //监听提交
+            form.on('submit(formDemo)', async function (data) {
+                // layer.msg(JSON.stringify(data.field))
+                // layer.msg('正在查询......');
+                try {
+                    const response = await fetch('leftTicket', {
+                        method: 'post',
+                        body: JSON.stringify(data.field),
+                    });
+                    console.log('Completed!', response);
+                } catch (err) {
+                    console.error(`Error: ${err}`);
+                }
+                return false;
+            });
+
+            form.on('radio(tripType)', function (data) {
+                // console.log(data.value); //被点击的radio的value值
+                var backtime = document.getElementById('backtime');
+                if (data.value === 'round') {
+                    backtime.removeAttribute('disabled');
+                    backtime.setAttribute('style', 'background-color:#FAFAFA');
+                } else {
+                    backtime.setAttribute('disabled', 'true');
+                    backtime.setAttribute('style', 'background-color:#dddddd');
+                }
+            });
+        });
+
+        layui.use('laydate', function () {
+            var laydate = layui.laydate;
+
+            //执行一个laydate实例
+            laydate.render({
+                elem: '#departtime',
+            });
+
+            laydate.render({
+                elem: '#backtime',
+            });
+        });
+
+        function alterTrip() {
+            var roundtrip = document.getElementById('round');
+            var backtime = document.getElementById('backtime');
+            if (roundtrip.checked === true) {
+                backtime.removeAttribute('disabled');
+                backtime.setAttribute('style', 'background-color:#FAFAFA');
+            } else {
+                backtime.setAttribute('disabled', 'true');
+                backtime.setAttribute('style', 'background-color:#dddddd');
+            }
+        }
+
+        // 默认为单程票，因此一开始就要禁用
+        var backtime = document.getElementById('backtime');
+        backtime.setAttribute('disabled', 'true');
+        backtime.setAttribute('style', 'background-color:#dddddd');
+
+        layui.use('table', function () {
+            var table = layui.table;
+            //转换静态表格
+            table.init('test', {
+                height: 315, //设置高度
+                limit: 10, //注意：请务必确保 limit 参数（默认：10）是与你服务端限定的数据条数一致
+                //支持所有基础参数
+            });
+
+            //第一个实例
+            table.render({
+                elem: '#test',
+                height: 480,
+                // url: 'leftTicket', //数据接口
+            });
+        });
+    </script>
+</div>
+
+{{template "customer/footer.tpl" .}}

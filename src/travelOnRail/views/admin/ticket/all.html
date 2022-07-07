@@ -1,0 +1,51 @@
+{{template "admin/header.tpl" .}}
+
+<div class="layui-body">
+    <table
+        class="layui-table"
+        lay-data="{height:750, page:true, id:'ticketAll', limit:16,even:true}"
+        lay-filter="ticketAll"
+    >
+        <thead>
+            <tr>
+                <th lay-data="{field:'trainId', width:200, align:'center',sort:true}">列车ID</th>
+                <th lay-data="{field:'trainName', width:200, align:'center',sort:true}">
+                    列车名称
+                </th>
+                <th lay-data="{field:'cabinType', width:200, align:'center',sort:true}">
+                    车厢类型
+                </th>
+                <th lay-data="{field:'validVolume', width:200, align:'center',sort:true}">
+                    余票数量
+                </th>
+                <th lay-data="{field:'ops', width:400, align:'center'}">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{range $key, $value := .data}}
+            <tr>
+                <td>{{$value.TrainId}}</td>
+                <td>{{$value.TrainName}}</td>
+                <td>{{$value.CabinType}}</td>
+                <td>{{$value.ValidVolume}}</td>
+                <td>
+                    <button class="layui-btn layui-btn-sm">
+                        增加
+                        <i class="layui-icon layui-icon-addition"></i>
+                    </button>
+                    <button class="layui-btn layui-btn-sm">
+                        减少
+                        <i class="layui-icon layui-icon-subtraction"></i>
+                    </button>
+                    <button class="layui-btn layui-btn-danger layui-btn-sm">
+                        移除
+                        <i class="layui-icon layui-icon-delete"></i>
+                    </button>
+                </td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
+</div>
+
+{{template "admin/footer.tpl" .}}

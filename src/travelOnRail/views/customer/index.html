@@ -1,0 +1,98 @@
+{{template "customer/header.tpl" .}}
+
+<div style="padding: 40px"></div>
+
+<div class="layui-container">
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md12" style="position: relative;">
+            <style>
+                /* 为了区分效果 */
+                div[carousel-item] > * {
+                    text-align: center;
+                    line-height: 280px;
+                    color: #fff;
+                }
+                div[carousel-item] > *:nth-child(2n) {
+                    background-color: #5fb878;
+                }
+                div[carousel-item] > *:nth-child(2n + 1) {
+                    background-color: #009688;
+                }
+                #test2 div[carousel-item] > * {
+                    line-height: 120px;
+                }
+            </style>
+            <div class="layui-carousel" id="test1" style="position: absolute;">
+              <div carousel-item>
+                    <div>条目1</div>
+                    <div>条目2</div>
+                    <div>条目3</div>
+                    <div>条目4</div>
+                    <div>条目5</div>
+                  </div>
+                </div>
+                <script>
+                  layui.use('carousel', function () {
+                    var carousel = layui.carousel;
+                    //建造实例
+                    carousel.render({
+                      elem: '#test1',
+                      height:'450px',
+                      width: '100%', //设置容器宽度
+                      arrow: 'none', //始终显示箭头
+                      //,anim: 'updown' //切换动画方式
+                    });
+                  });
+                  </script>
+        </div>
+        <div class="layui-panel" style="position: absolute; left: 80px; top: 40px">
+            <ul class="layui-menu" id="docDemoMenu1">
+              <li lay-options="{id: 100}">
+                <div class="layui-menu-body-title">menu item 1</div>
+              </li>
+              <li lay-options="{id: 101}">
+                <div class="layui-menu-body-title">
+                  <a href="#">menu item 2 <span class="layui-badge-dot"></span></a>
+                </div>
+              </li>
+              <li class="layui-menu-item-divider"></li>
+              <li class="layui-menu-item-group layui-menu-item-down" lay-options="{type: 'group'}">
+                <div class="layui-menu-body-title">
+                  menu item 3 group <i class="layui-icon layui-icon-up"></i>
+                </div>
+                <ul>
+                  <li lay-options="{id: 1031}">menu item 3-1</li>
+                  <li lay-options="{id: 1032}">
+                    <div class="layui-menu-body-title">menu item 3-2</div>
+                  </li>
+                </ul>
+              </li>
+              <li class="layui-menu-item-divider"></li>
+              <li lay-options="{id: 104}">
+                <div class="layui-menu-body-title">menu item 4</div>
+              </li>
+              <li class="layui-menu-item-parent" lay-options="{type: 'parent'}">
+                <div class="layui-menu-body-title">
+                  menu item 5 
+                  <i class="layui-icon layui-icon-right"></i>
+                </div>
+                <div class="layui-panel layui-menu-body-panel">
+                  <ul>
+                    <li lay-options="{id: 1051}">
+                      <div class="layui-menu-body-title">menu item 5-1</div>
+                    </li>
+                    <li lay-options="{id: 1051}">
+                      <div class="layui-menu-body-title">menu item 5-2</div>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li lay-options="{id: 106}">
+                <div class="layui-menu-body-title">menu item 6</div>
+              </li>
+            </ul>
+        </div>
+    </div>
+
+    {{template "customer/footer.tpl" .}}
+</div>

@@ -1,0 +1,97 @@
+{{template "customer/header.tpl" .}}
+<div style="padding: 40px"></div>
+<div class="layui-container">
+    <span class="layui-breadcrumb" lay-separator="-">
+        <a href="index.html">首页</a>
+        <a>车票购买</a>
+        <a><cite>中转票</cite></a>
+    </span>
+    <div style="padding: 20px"></div>
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+            <div class="layui-row">
+                <div class="layui-col-md3">
+                    <label class="layui-form-label">出发站</label>
+                    <div class="layui-input-block">
+                        <select name="city" lay-verify="required" lay-search>
+                            <option value=""></option>
+                            {{range $key, $val := .stations}}
+                            <option value="{{$key}}">{{$val}}</option>
+                            {{end}}
+                        </select>
+                    </div>
+                </div> 
+                <div class="layui-col-md3">
+                    <label class="layui-form-label">换乘站</label>
+                    <div class="layui-input-block">
+                        <select name="city" lay-verify="required" lay-search>
+                            <option value=""></option>
+                            {{range $key, $val := .stations}}
+                            <option value="{{$key}}">{{$val}}</option>
+                            {{end}}
+                        </select>
+                    </div>
+                </div> 
+                <div class="layui-col-md3">
+                    <label class="layui-form-label">到达站</label>
+                    <div class="layui-input-block">
+                        <select name="city" lay-verify="required" lay-search>
+                            <option value=""></option>
+                            {{range $key, $val := .stations}}
+                            <option value="{{$key}}">{{$val}}</option>
+                            {{end}}
+                        </select>
+                    </div>
+                </div> 
+                <div class="layui-col-md3">
+                    <label class="layui-form-label">出发日</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" id="departtime" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-row">
+                <div class="layui-col-md8">
+                    <label class="layui-form-label"></label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" name="like[write]" title="学生" />
+                        <input type="checkbox" name="like[read]" title="高铁/动车" />
+                    </div>
+                </div>
+                <div class="layui-col-md4">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+    <script>
+        //Demo
+        layui.use('form', function () {
+            var form = layui.form;
+
+            //监听提交
+            form.on('submit(formDemo)', function (data) {
+                layer.msg(JSON.stringify(data.field));
+                return false;
+            });
+        });
+
+        layui.use('laydate', function () {
+            var laydate = layui.laydate;
+
+            //执行一个laydate实例
+            laydate.render({
+                elem: '#departtime',
+            });
+        });
+    </script>
+</div>
+
+{{template "customer/footer.tpl" .}}
