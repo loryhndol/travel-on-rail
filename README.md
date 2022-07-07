@@ -35,7 +35,7 @@ Focus on sale services. Decouple from complex railway systems.
 
 EER diagram
 
-<img src="H:\beego-travelOnRail\EER.png" alt="50%"  />
+<img title="" src="./EER.png" alt="50%">
 
 #### Customer interface:
 
